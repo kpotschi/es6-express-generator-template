@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import app from '../app.mjs';
+import { app } from '../src/app.mjs';
 import Debug from 'debug';
 import http from 'http';
 const debug = Debug('myapp');

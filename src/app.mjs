@@ -5,18 +5,19 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { fileURLToPath } from 'url';
 
-import indexRouter from './routes/index.mjs';
-import usersRouter from './routes/users.mjs';
+import indexRouter from '../routes/index.mjs';
+import usersRouter from '../routes/users.mjs';
 
-const app = express();
+export const app = express();
 
 // view engine setup
 app.set(
 	'views',
-	path.join(fileURLToPath(path.dirname(import.meta.url)), 'views')
+	path.join(fileURLToPath(path.dirname(import.meta.url)), '../views')
 );
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
+// middleware setup
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,6 +28,7 @@ app.use(
 	)
 );
 
+// routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -45,5 +47,3 @@ app.use(function (err, req, res, next) {
 	res.status(err.status || 500);
 	res.render('error');
 });
-
-export default app;
