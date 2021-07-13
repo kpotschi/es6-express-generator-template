@@ -7,33 +7,13 @@
 import { app } from '../src/app.mjs';
 import Debug from 'debug';
 import http from 'http';
-const debug = Debug('myapp');
-/**
- * Get port from environment and store in Express.
- */
-
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-const server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port, () => console.log('Server has started...'));
-server.on('error', onError);
-server.on('listening', onListening);
+const debug = Debug('express_template:server');
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
+const normalizePort = (val) => {
 	const port = parseInt(val, 10);
 
 	if (isNaN(port)) {
@@ -47,18 +27,30 @@ function normalizePort(val) {
 	}
 
 	return false;
-}
+};
+
+/**
+ * Get port from environment and store in Express.
+ */
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app);
 
 /**
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+const onError = (error) => {
 	if (error.syscall !== 'listen') {
 		throw error;
 	}
 
-	var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+	const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
 	// handle specific listen errors with friendly messages
 	switch (error.code) {
@@ -73,14 +65,22 @@ function onError(error) {
 		default:
 			throw error;
 	}
-}
+};
 
 /**
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
-	var addr = server.address();
-	var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+const onListening = () => {
+	const addr = server.address();
+	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
 	debug('Listening on ' + bind);
-}
+};
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port, () => console.log('Server has started...'));
+server.on('error', onError);
+server.on('listening', onListening);
