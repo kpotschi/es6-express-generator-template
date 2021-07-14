@@ -1,9 +1,11 @@
 import express from 'express';
+import path from "path";
+import {fileURLToPath } from "url";
+
 const router = express.Router();
 
-/* GET home page. */
 router.get('/', function (req, res, next) {
-	res.render('index', { title: 'Express' });
+	res.sendFile(path.join(fileURLToPath(path.dirname(import.meta.url)), '../public'))
 });
 
 export default router;
