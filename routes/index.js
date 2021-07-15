@@ -1,11 +1,7 @@
 import express from 'express';
-import path from "path";
-import {fileURLToPath } from "url";
-
+import { indexController } from '../controllers/indexController.js';
 const router = express.Router();
 
-router.get('/', function (req, res, next) {
-	res.sendFile(path.join(fileURLToPath(path.dirname(import.meta.url)), '../public'))
-});
+router.get('/', indexController);
 
 export default router;
