@@ -20,6 +20,18 @@ app.use(
 	)
 );
 
+//favicon
+
+app.use(
+	'/favicon.ico',
+	express.static(
+		path.join(
+			fileURLToPath(path.dirname(import.meta.url)),
+			'../public/images/favicon.ico'
+		)
+	)
+);
+
 // routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
