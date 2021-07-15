@@ -3,4 +3,4 @@
 ## Usage
 
 - **npm i** before using
-- install nodemon globally and use by typing **npm run dev**
+- install nodemon globally and use by running **npm run dev**
