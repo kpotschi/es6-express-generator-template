@@ -3,18 +3,16 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { fileURLToPath } from 'url';
-import Debug from 'debug';
 import http from 'http';
+import debug from 'debug';
 import favicon from 'serve-favicon';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
 
 const app = express();
-const debug = Debug('express_template:server');
 
-/**
- * Normalize a port into a number, string, or false.
- */
+const server = http.createServer(app);
+const debugImport = debug('es6-express-template:server');
 
 const normalizePort = (val) => {
 	const port = parseInt(val, 10);
@@ -32,59 +30,30 @@ const normalizePort = (val) => {
 	return false;
 };
 
-/**
- * Get port from environment and store in Express.
- */
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-const server = http.createServer(app);
-
-/**
- * Event listener for HTTP server "error" event.
- */
-
 const onError = (error) => {
 	if (error.syscall !== 'listen') {
 		throw error;
 	}
-
-	const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-
-	// handle specific listen errors with friendly messages
 	switch (error.code) {
 		case 'EACCES':
-			console.error(bind + ' requires elevated privileges');
+			console.error('Port/Pipe requires elevated privileges');
 			process.exit(1);
 		case 'EADDRINUSE':
-			console.error(bind + ' is already in use');
+			console.error('Port is already in use');
 			process.exit(1);
 		default:
 			throw error;
 	}
 };
 
-/**
- * Event listener for HTTP server "listening" event.
- */
-
 const onListening = () => {
 	const addr = server.address();
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-	debug('Listening on ' + bind);
+
+	debugImport('Listening on ' + bind);
 };
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port, () => console.log('Server has started...'));
-server.on('error', onError);
-server.on('listening', onListening);
+const port = normalizePort(process.env.PORT || '3000');
 
 // middleware setup
 app.use(logger('dev'));
@@ -94,7 +63,6 @@ app.use(cookieParser());
 app.use(express.static('public'));
 
 //favicon
-
 app.use(
 	favicon(
 		path.join(
@@ -107,3 +75,8 @@ app.use(
 // routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+// server listen
+server.listen(port, () => console.log(`Server has started on Port ${port}`));
+server.on('error', onError);
+server.on('listening', onListening);
