@@ -6,7 +6,7 @@ const debugImport = debug('es6-express-template:server');
 export const onListening = () => {
 	const addr = server.address();
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-
+	// is this reachable?
 	debugImport('Listening on ' + bind);
 };
 
