@@ -17,6 +17,9 @@ const app = express();
 export const server = http.createServer(app);
 const port = normalizePort(process.env.PORT || '3000');
 
+//view engine setup
+app.set('view engine', 'ejs');
+
 // middleware setup
 app.use(logger('dev'));
 app.use(express.json());
